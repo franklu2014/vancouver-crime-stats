@@ -22,7 +22,7 @@ In the line chart (crime trend chart), the count of crimes in a neighbourhood is
 
 ## APP Link
 
-https://dsci-532-group108-milestone3.herokuapp.com/
+https://vancouver-crime-stats.herokuapp.com/
 
 ## APP Screenshot
 

@@ -130,6 +130,12 @@ geojson_filepath = 'data/our_geojson.geojson'
 gdf = get_geopandas_df(geojson_filepath)
 gdf = gdf.rename(columns = {'Name': 'NEIGHBOURHOOD'}).drop(columns = 'description')
 
+crime_cnt_pre = (df.groupby(['YEAR', 'NEIGHBOURHOOD', 'TYPE'])[['MINUTE']]
+                 .count()
+                 .rename(columns = {'MINUTE': 'COUNT'})
+                 .reset_index()
+                )
+
 def plot_choropleth(year_init = 2010, year_end = 2018, crime_type = 'all', crime_threshold = 1):
     """
     Create choropleth of crime data across neighbourhoods in Vancouver
@@ -150,8 +156,7 @@ def plot_choropleth(year_init = 2010, year_end = 2018, crime_type = 'all', crime
     altair.Chart object
         altair choropleth chart with filtered crime data
     """
-    crime_cnt = (df.query('@year_init <= YEAR & YEAR <= @year_end').groupby(['NEIGHBOURHOOD', 'TYPE'])[['MINUTE']]
-                .count().rename(columns = {'MINUTE': 'COUNT'})
+    crime_cnt = (crime_cnt_pre.query('@year_init <= YEAR & YEAR <= @year_end')
                 .reset_index())
 
     if(crime_type.lower() == 'all'):
